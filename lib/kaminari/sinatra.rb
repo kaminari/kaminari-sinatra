@@ -1,7 +1,8 @@
-require "kaminari/sinatra/version"
-
+require 'kaminari'
 module Kaminari
-  module Sinatra
-    # Your code goes here...
+  module Helpers
+    autoload :SinatraHelper, 'kaminari/helpers/sinatra_helper'
   end
 end
+Kaminari::Hooks.init!
+
