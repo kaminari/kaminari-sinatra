@@ -11,6 +11,8 @@ require 'database_cleaner'
 # Simulate a gem providing a subclass of ActiveRecord::Base before the Railtie is loaded.
 require 'fake_gem' if defined? ActiveRecord
 
+require 'spec_helper_for_sinatra'
+
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
