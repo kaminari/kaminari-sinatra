@@ -8,6 +8,7 @@ end
 
 require 'bundler/setup'
 Bundler.require
+require 'active_record'
 
 require 'capybara/rspec'
 require 'database_cleaner'
