@@ -158,7 +158,7 @@ module Kaminari::Helpers
 end
 
 if defined? I18n
-  I18n.load_path += Dir.glob(File.expand_path('../../../../config/locales/*.yml', __FILE__))
+  I18n.load_path += Dir.glob(File.join(Gem.loaded_specs['kaminari'].gem_dir, 'config/locales/*.yml'))
 end
 
 rescue LoadError
