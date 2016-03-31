@@ -38,7 +38,7 @@ module Kaminari::Helpers
       def render(*args)
         base = ActionView::Base.new.tap do |a|
           a.view_paths << SinatraHelpers.view_paths
-          a.view_paths << File.expand_path('../../../../app/views', __FILE__)
+          a.view_paths << File.join(Gem.loaded_specs['kaminari'].gem_dir, 'app/views')
         end
         base.render(*args)
       end
