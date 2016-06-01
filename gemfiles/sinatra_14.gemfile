@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-#FIXME bundle GH branch for now
-gem 'kaminari', github: 'amatsuda/kaminari', branch: 'extract_adapters'
+gem 'kaminari'
 
 gem 'activerecord', '>= 4.0.0', :require => 'active_record'
 gem 'sinatra', '~> 1.4.0'
