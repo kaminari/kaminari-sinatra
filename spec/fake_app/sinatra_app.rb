@@ -1,7 +1,7 @@
-require 'fake_app/active_record/config' if defined? ActiveRecord
+require 'fake_app/active_record/config'
 
 #models
-require 'fake_app/active_record/models' if defined? ActiveRecord
+require 'fake_app/active_record/models'
 
 class SinatraApp < Sinatra::Base
   register Kaminari::Helpers::SinatraHelpers
