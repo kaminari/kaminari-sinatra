@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'kaminari', github: 'amatsuda/kaminari'
 
 gem 'activerecord', '>= 4.0.0', :require => 'active_record'
+gem 'actionview', '>= 4.0.0', :require => 'action_view'
 gem 'sinatra', '~> 1.4.0'
 gem 'rspec', '~> 2.14.1'
 gem 'padrino-helpers', '~> 0.12.0'
