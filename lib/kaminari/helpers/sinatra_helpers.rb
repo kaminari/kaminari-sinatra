@@ -37,7 +37,7 @@ module Kaminari::Helpers
       def render(*args)
         base = ActionView::Base.new.tap do |a|
           a.view_paths << SinatraHelpers.view_paths
-          a.view_paths << File.join(Gem.loaded_specs['kaminari'].gem_dir, 'app/views')
+          a.view_paths << File.join(Gem.loaded_specs['kaminari-core'].gem_dir, 'app/views')
         end
         base.render(*args)
       end
@@ -157,7 +157,7 @@ module Kaminari::Helpers
 end
 
 if defined? I18n
-  I18n.load_path += Dir.glob(File.join(Gem.loaded_specs['kaminari'].gem_dir, 'config/locales/*.yml'))
+  I18n.load_path += Dir.glob(File.join(Gem.loaded_specs['kaminari-core'].gem_dir, 'config/locales/*.yml'))
 end
 
 rescue LoadError

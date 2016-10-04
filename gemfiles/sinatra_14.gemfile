@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 #FIXME bundle GH master for now
-gem 'kaminari', github: 'amatsuda/kaminari'
+gem 'kaminari-core', github: 'amatsuda/kaminari'
 
 gem 'activerecord', '>= 5.0.0', :require => 'active_record'
 gem 'actionview', '>= 5.0.0', :require => 'action_view'
