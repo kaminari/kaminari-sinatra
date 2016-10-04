@@ -1,6 +1,5 @@
 require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
-require 'action_dispatch/http/mime_type'
 
 begin
 
