@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require 'kaminari'
+require 'kaminari/core'
 require 'kaminari/helpers/sinatra_helpers'
 
 Kaminari::Hooks.init

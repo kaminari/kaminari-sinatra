@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'database_cleaner'
-  spec.add_dependency 'kaminari'
+  spec.add_dependency 'kaminari-core'
   spec.add_dependency 'sinatra'
   spec.add_dependency 'actionview'
   spec.add_dependency 'padrino-helpers'
