@@ -4,4 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 #FIXME bundle GH master for now
-gem 'kaminari', github: 'amatsuda/kaminari'
+gem 'kaminari-core', github: 'amatsuda/kaminari'
