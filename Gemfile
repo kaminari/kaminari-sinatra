@@ -5,3 +5,4 @@ gemspec
 
 #FIXME bundle GH master for now
 gem 'kaminari-core', github: 'amatsuda/kaminari'
+gem 'kaminari-activerecord', github: 'amatsuda/kaminari'
