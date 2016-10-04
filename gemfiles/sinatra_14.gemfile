@@ -5,6 +5,7 @@ gem 'kaminari-core', github: 'amatsuda/kaminari'
 gem 'kaminari-activerecord', path: '~/src/amatsuda/kaminari'
 
 gem 'activerecord', '>= 5.0.0', :require => 'active_record'
+#FIXME need to bundle AV for now, because the helper still depends on ActionView
 gem 'actionview', '>= 5.0.0', :require => 'action_view'
 gem 'sinatra', '~> 1.4.0'
 gem 'rspec', '~> 2.14.1'
