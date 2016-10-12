@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 ERB_TEMPLATE_FOR_PAGINATE = <<EOT
