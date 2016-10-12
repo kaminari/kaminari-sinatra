@@ -1,9 +1,7 @@
 require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
-
-begin
-
 require 'padrino-helpers'
+
 module Kaminari::Helpers
   module SinatraHelpers
     class << self
@@ -158,18 +156,4 @@ end
 
 if defined? I18n
   I18n.load_path += Dir.glob(File.join(Gem.loaded_specs['kaminari-core'].gem_dir, 'config/locales/*.yml'))
-end
-
-rescue LoadError
-
-$stderr.puts "[!]You should install `padrino-helpers' gem if you want to use kaminari's pagination helpers with Sinatra."
-$stderr.puts "[!]Kaminari::Helpers::SinatraHelper does nothing now..."
-
-module Kaminari::Helpers
-  module SinatraHelper
-    def self.registered(*)
-    end
-  end
-end
-
 end
