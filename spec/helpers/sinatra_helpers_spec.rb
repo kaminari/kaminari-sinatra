@@ -47,7 +47,7 @@ describe 'Kaminari::Helpers::SinatraHelper' do
           @page = params[:page] || 1
           @users = User.page(@page)
           @options = {}
-          erb ERB_TEMPLATE_FOR_PAGINATE
+          erb ERB_TEMPLATE_FOR_PAGINATE.dup
         end
       end
     end
@@ -92,7 +92,7 @@ describe 'Kaminari::Helpers::SinatraHelper' do
             @page = params[:page] || 1
             @users = User.page(@page).per(5)
             @options = {}
-            erb ERB_TEMPLATE_FOR_PAGINATE
+            erb ERB_TEMPLATE_FOR_PAGINATE.dup
           end
         end
 
@@ -108,7 +108,7 @@ describe 'Kaminari::Helpers::SinatraHelper' do
             @page = params[:page] || 1
             @users = User.page(@page).per(3)
             @options = {:window => 10}
-            erb ERB_TEMPLATE_FOR_PAGINATE
+            erb ERB_TEMPLATE_FOR_PAGINATE.dup
           end
         end
 
@@ -124,7 +124,7 @@ describe 'Kaminari::Helpers::SinatraHelper' do
             @page = params[:page] || 1
             @users = User.page(@page).per(3)
             @options = {:param_name => :user_page}
-            erb ERB_TEMPLATE_FOR_PAGINATE
+            erb ERB_TEMPLATE_FOR_PAGINATE.dup
           end
         end
 
@@ -143,14 +143,14 @@ describe 'Kaminari::Helpers::SinatraHelper' do
         get '/users' do
           @page = params[:page] || 2
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE
+          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE.dup
         end
 
         get '/users_placeholder' do
           @page = params[:page] || 2
           @options = {:placeholder => %{<span id='no_previous_page'>No Previous Page</span>}}
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE
+          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE.dup
         end
       end
     end
@@ -185,14 +185,14 @@ describe 'Kaminari::Helpers::SinatraHelper' do
         get '/users' do
           @page = params[:page] || 1
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_NEXT_PAGE
+          erb ERB_TEMPLATE_FOR_NEXT_PAGE.dup
         end
 
         get '/users_placeholder' do
           @page = params[:page] || 1
           @options = {:placeholder => %{<span id='no_next_page'>No Next Page</span>}}
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_NEXT_PAGE
+          erb ERB_TEMPLATE_FOR_NEXT_PAGE.dup
         end
       end
     end

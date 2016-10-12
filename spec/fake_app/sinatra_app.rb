@@ -9,7 +9,7 @@ class SinatraApp < Sinatra::Base
 
   get '/users' do
     @users = User.page params[:page]
-    erb <<-ERB
+    erb <<-ERB.dup
 <%= @users.map(&:name).join("\n") %>
 <%= paginate @users %>
 ERB
