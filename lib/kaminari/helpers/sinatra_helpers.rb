@@ -82,7 +82,7 @@ module Kaminari::Helpers
       # * <tt>:param_name</tt> - parameter name for page number in the links (:page by default)
       # * <tt>:remote</tt> - Ajax? (false by default)
       # * <tt>:ANY_OTHER_VALUES</tt> - Any other hash key & values would be directly passed into each tag as :locals value.
-      def paginate(scope, options = {}, &block)
+      def paginate(scope, options = {})
         current_path = env['PATH_INFO'] rescue nil
         current_params = Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {}
         paginator = Kaminari::Helpers::Paginator.new(
