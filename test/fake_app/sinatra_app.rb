@@ -14,4 +14,13 @@ class SinatraApp < Sinatra::Base
 <%= paginate @users %>
 ERB
   end
+
+  get '/users/index_text.?:format?' do
+    @users = User.page params[:page]
+    erb <<-ERB.dup
+<%= partial 'users/partial1' %>
+<%= paginate @users %>
+<%= partial 'users/partial2' %>
+ERB
+  end
 end

@@ -1,14 +1,13 @@
 source 'https://rubygems.org'
 
 #FIXME bundle GH master for now
-gem 'kaminari-core', github: 'amatsuda/kaminari'
-gem 'kaminari-activerecord', github: 'amatsuda/kaminari'
+gem 'kaminari-core', github: 'amatsuda/kaminari', branch: 'test-unit'
+gem 'kaminari-activerecord', github: 'amatsuda/kaminari', branch: 'test-unit'
 
 gem 'activerecord', '>= 5.0.0', :require => 'active_record'
 #FIXME need to bundle AV for now, because the helper still depends on ActionView
 gem 'actionview', '>= 5.0.0', :require => 'action_view'
 gem 'sinatra', '~> 1.4.0'
-gem 'rspec', '~> 2.14.1'
 gem 'padrino-helpers', '~> 0.12.0'
 gem 'rack-test', '>= 0'
 gem 'sinatra-contrib', '~> 1.4.0'

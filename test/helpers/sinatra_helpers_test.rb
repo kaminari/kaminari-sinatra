@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'spec_helper'
+require 'test_helper'
 
 ERB_TEMPLATE_FOR_PAGINATE = <<EOT
 <div>
@@ -34,13 +34,24 @@ ERB_TEMPLATE_FOR_NEXT_PAGE = <<EOT
 </div>
 EOT
 
-describe 'Kaminari::Helpers::SinatraHelper' do
-  before do
-    50.times {|i| User.create! :name => "user#{i}"}
+class SinatraHelperTest < ActiveSupport::TestCase
+  include Rack::Test::Methods
+  include Sinatra::TestHelpers
+  include HelperMethodForHelperSpec
+
+  def last_document
+    Nokogiri::HTML(last_response.body)
   end
 
-  describe '#paginate' do
-    before do
+  setup do
+    50.times {|i| User.create! :name => "user#{i}"}
+  end
+  teardown do
+    User.delete_all
+  end
+
+  sub_test_case '#paginate' do
+    setup do
       mock_app do
         register Kaminari::Helpers::SinatraHelpers
         get '/users' do
@@ -52,40 +63,40 @@ describe 'Kaminari::Helpers::SinatraHelper' do
       end
     end
 
-    context 'normal paginations with Sinatra' do
-      before { get '/users' }
+    sub_test_case 'normal paginations with Sinatra' do
+      setup { get '/users' }
 
-      it 'should have a navigation tag' do
-        last_document.search('nav.pagination').should_not be_empty
+      test 'should have a navigation tag' do
+        assert_not_empty last_document.search('nav.pagination')
       end
 
-      it 'should have pagination links' do
-        last_document.search('.page a').should have_at_least(1).items
-        last_document.search('.next a').should have_at_least(1).items
-        last_document.search('.last a').should have_at_least(1).items
+      test 'should have pagination links' do
+        assert_not_empty last_document.search('.page a')
+        assert_not_empty last_document.search('.next a')
+        assert_not_empty last_document.search('.last a')
       end
 
-      it 'should point to current page' do
-        last_document.search('.current').text.should match(/1/)
+      test 'should point to current page' do
+        assert_match(/1/, last_document.search('.current').text)
 
         get '/users?page=2'
-        last_document.search('.current').text.should match(/2/)
+        assert_match(/2/, last_document.search('.current').text)
       end
 
-      it 'should load 25 users' do
-        last_document.search('li.user_info').should have(25).items
+      test 'should load 25 users' do
+        assert_equal 25, last_document.search('li.user_info').length
       end
 
-      it 'should preserve params' do
+      test 'should preserve params' do
         get '/users?foo=bar'
-        last_document.search('.page a').should(be_all do |elm|
-          elm.attribute('href').value =~ /foo=bar/
-        end)
+        last_document.search('.page a').each do |elm|
+          assert_match(/foo=bar/, elm.attribute('href').value)
+        end
       end
     end
 
-    context 'optional paginations with Sinatra' do
-      it 'should have 5 windows with 1 gap' do
+    sub_test_case 'optional paginations with Sinatra' do
+      test 'should have 5 windows with 1 gap' do
         mock_app do
           register Kaminari::Helpers::SinatraHelpers
           get '/users' do
@@ -97,11 +108,12 @@ describe 'Kaminari::Helpers::SinatraHelper' do
         end
 
         get '/users'
-        last_document.search('.page').should have(6).items
-        last_document.search('.gap').should have(1).item
+
+        assert_equal 6, last_document.search('.page').length
+        assert_equal 1, last_document.search('.gap').length
       end
 
-      it 'should control the inner window size' do
+      test 'should control the inner window size' do
         mock_app do
           register Kaminari::Helpers::SinatraHelpers
           get '/users' do
@@ -113,11 +125,12 @@ describe 'Kaminari::Helpers::SinatraHelper' do
         end
 
         get '/users'
-        last_document.search('.page').should have(12).items
-        last_document.search('.gap').should have(1).item
+
+        assert_equal 12, last_document.search('.page').length
+        assert_equal 1, last_document.search('.gap').length
       end
 
-      it 'should specify a page param name' do
+      test 'should specify a page param name' do
         mock_app do
           register Kaminari::Helpers::SinatraHelpers
           get '/users' do
@@ -129,15 +142,16 @@ describe 'Kaminari::Helpers::SinatraHelper' do
         end
 
         get '/users'
-        last_document.search('.page a').should(be_all do |elm|
-          elm.attribute('href').value =~ /user_page=\d+/
-        end)
+
+        last_document.search('.page a').each do |elm|
+          assert_match(/user_page=\d+/, elm.attribute('href').value)
+        end
       end
     end
   end
 
-  describe '#link_to_previous_page' do
-    before do
+  sub_test_case '#link_to_previous_page' do
+    setup do
       mock_app do
         register Kaminari::Helpers::SinatraHelpers
         get '/users' do
@@ -155,31 +169,34 @@ describe 'Kaminari::Helpers::SinatraHelper' do
       end
     end
 
-    context 'having more page' do
-      it 'should have a more page link' do
+    sub_test_case 'having more page' do
+      test 'should have a more page link' do
         get '/users'
-        last_document.search('a#previous_page_link').should be_present
-        last_document.search('a#previous_page_link').text.should match(/Previous!/)
+
+        assert_not_empty last_document.search('a#previous_page_link')
+        assert_match(/Previous!/, last_document.search('a#previous_page_link').text)
       end
     end
 
-    context 'the first page' do
-      it 'should not have a more page link' do
+    sub_test_case 'the first page' do
+      test 'should not have a more page link' do
         get '/users?page=1'
-        last_document.search('a#previous_page_link').should be_empty
+
+        assert_empty last_document.search('a#previous_page_link')
       end
 
-      it 'should have a no more page notation using placeholder' do
+      test 'should have a no more page notation using placeholder' do
         get '/users_placeholder?page=1'
-        last_document.search('a#previous_page_link').should be_empty
-        last_document.search('span#no_previous_page').should be_present
-        last_document.search('span#no_previous_page').text.should match(/No Previous Page/)
+
+        assert_empty last_document.search('a#previous_page_link')
+        assert_not_empty last_document.search('span#no_previous_page')
+        assert_match(/No Previous Page/, last_document.search('span#no_previous_page').text)
       end
     end
   end
 
-  describe '#link_to_next_page' do
-    before do
+  sub_test_case '#link_to_next_page' do
+    setup do
       mock_app do
         register Kaminari::Helpers::SinatraHelpers
         get '/users' do
@@ -197,25 +214,28 @@ describe 'Kaminari::Helpers::SinatraHelper' do
       end
     end
 
-    context 'having more page' do
-      it 'should have a more page link' do
+    sub_test_case 'having more page' do
+      test 'should have a more page link' do
         get '/users'
-        last_document.search('a#next_page_link').should be_present
-        last_document.search('a#next_page_link').text.should match(/Next!/)
+
+        assert_not_empty last_document.search('a#next_page_link')
+        assert_match(/Next!/, last_document.search('a#next_page_link').text)
       end
     end
 
-    context 'the last page' do
-      it 'should not have a more page link' do
+    sub_test_case 'the last page' do
+      test 'should not have a more page link' do
         get '/users?page=2'
-        last_document.search('a#next_page_link').should be_empty
+
+        assert_empty last_document.search('a#next_page_link')
       end
 
-      it 'should have a no more page notation using placeholder' do
+      test 'should have a no more page notation using placeholder' do
         get '/users_placeholder?page=2'
-        last_document.search('a#next_page_link').should be_empty
-        last_document.search('span#no_next_page').should be_present
-        last_document.search('span#no_next_page').text.should match(/No Next Page/)
+
+        assert_empty last_document.search('a#next_page_link')
+        assert_not_empty last_document.search('span#no_next_page')
+        assert_match(/No Next Page/, last_document.search('span#no_next_page').text)
       end
     end
   end
