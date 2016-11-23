@@ -50,17 +50,12 @@ module Kaminari::Helpers
         @current_path + (query.empty? ? '' : "?#{query.to_query}")
       end
 
+      def link_to_if(condition, name, options = {}, html_options = {}, &block)
+        link_to name, options, html_options.merge(if: condition), &block
+      end
+
       def link_to_unless(condition, name, options = {}, html_options = {}, &block)
-        options = url_for(options) if options.is_a? Hash
-        if condition
-          if block_given?
-            block.arity <= 1 ? capture(name, &block) : capture(name, options, html_options, &block)
-          else
-            name
-          end
-        else
-          link_to(name, options, html_options)
-        end
+        link_to_if !condition, name, options, html_options, &block
       end
 
       def params
