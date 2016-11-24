@@ -11,6 +11,8 @@ class SinatraApp < Sinatra::Base
     @users = User.page params[:page]
     erb <<-ERB.dup
 <%= @users.map(&:name).join("\n") %>
+<%= link_to_previous_page @users, 'previous page', class: 'prev' %>
+<%= link_to_next_page @users, 'next page', class: 'next' %>
 <%= paginate @users %>
 ERB
   end
