@@ -14,6 +14,7 @@ class SinatraApp < Sinatra::Base
 <%= link_to_previous_page @users, 'previous page', class: 'prev' %>
 <%= link_to_next_page @users, 'next page', class: 'next' %>
 <%= paginate @users %>
+<div class="info"><%= page_entries_info @users %></div>
 ERB
   end
 
