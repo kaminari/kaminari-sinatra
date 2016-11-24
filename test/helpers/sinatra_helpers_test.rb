@@ -23,6 +23,17 @@ ERB_TEMPLATE_FOR_PREVIOUS_PAGE = <<EOT
 </div>
 EOT
 
+ERB_TEMPLATE_FOR_PREVIOUS_PAGE_WITH_BLOCK = <<EOT
+<div>
+<ul>
+<% @users.each do |user| %>
+  <li class="user_info"><%= user.id %></li>
+<% end %>
+</ul>
+<%= link_to_previous_page(@users, "Previous!", {id: 'previous_page_link'}) do '<span id="no_previous_page">No Previous Page</span>' end %>
+</div>
+EOT
+
 ERB_TEMPLATE_FOR_NEXT_PAGE = <<EOT
 <div>
 <ul>
@@ -31,6 +42,17 @@ ERB_TEMPLATE_FOR_NEXT_PAGE = <<EOT
 <% end %>
 </ul>
 <%= link_to_next_page(@users, "Next!", {:id => 'next_page_link'}.merge(@options || {})) %>
+</div>
+EOT
+
+ERB_TEMPLATE_FOR_NEXT_PAGE_WITH_BLOCK = <<EOT
+<div>
+<ul>
+<% @users.each do |user| %>
+  <li class="user_info"><%= user.id %></li>
+<% end %>
+</ul>
+<%= link_to_next_page(@users, "Next!", {:id => 'next_page_link'}) do '<span id="no_next_page">No Next Page</span>' end %>
 </div>
 EOT
 
@@ -162,9 +184,8 @@ class SinatraHelperTest < ActiveSupport::TestCase
 
         get '/users_placeholder' do
           @page = params[:page] || 2
-          @options = {placeholder: %{<span id='no_previous_page'>No Previous Page</span>}}
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE.dup
+          erb ERB_TEMPLATE_FOR_PREVIOUS_PAGE_WITH_BLOCK.dup
         end
       end
     end
@@ -207,9 +228,8 @@ class SinatraHelperTest < ActiveSupport::TestCase
 
         get '/users_placeholder' do
           @page = params[:page] || 1
-          @options = {placeholder: %{<span id='no_next_page'>No Next Page</span>}}
           @users = User.page(@page)
-          erb ERB_TEMPLATE_FOR_NEXT_PAGE.dup
+          erb ERB_TEMPLATE_FOR_NEXT_PAGE_WITH_BLOCK.dup
         end
       end
     end
