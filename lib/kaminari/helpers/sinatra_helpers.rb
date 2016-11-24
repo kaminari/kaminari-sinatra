@@ -51,7 +51,14 @@ module Kaminari::Helpers
       end
 
       def link_to_if(condition, name, options = {}, html_options = {}, &block)
-        link_to name, options, html_options.merge(if: condition), &block
+        options = url_for(options) if options.is_a? Hash
+        if condition
+          link_to(name, options, html_options)
+        elsif block_given?
+          capture_html(&block).html_safe
+        else
+          name
+        end
       end
 
       def link_to_unless(condition, name, options = {}, html_options = {}, &block)
