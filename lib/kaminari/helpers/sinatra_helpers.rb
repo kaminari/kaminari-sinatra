@@ -2,6 +2,7 @@
 require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
 require 'padrino-helpers'
+require 'kaminari/helpers/helper_methods'
 
 module Kaminari::Helpers
   module SinatraHelpers
@@ -50,6 +51,24 @@ module Kaminari::Helpers
         @current_path + (query.empty? ? '' : "?#{query.to_query}")
       end
 
+      def params
+        @current_params
+      end
+    end
+
+    module SinatraHelperMethods
+      def url_for(params)
+        current_path = env['PATH_INFO'] rescue nil
+        current_params = Rack::Utils.parse_query(env['QUERY_STRING']) rescue {}
+
+        extra_params = params.dup
+        extra_params.delete :only_path
+
+        query = current_params.merge(extra_params)
+        res = current_path + (query.empty? ? '' : "?#{query.to_query}")
+        res
+      end
+
       def link_to_if(condition, name, options = {}, html_options = {}, &block)
         options = url_for(options) if options.is_a? Hash
         if condition
@@ -65,25 +84,6 @@ module Kaminari::Helpers
         link_to_if !condition, name, options, html_options, &block
       end
 
-      def params
-        @current_params
-      end
-    end
-
-    module HelperMethods
-      # A helper that renders the pagination links - for Sinatra.
-      #
-      #   <%= paginate @articles %>
-      #
-      # ==== Options
-      # * <tt>:window</tt> - The "inner window" size (4 by default).
-      # * <tt>:outer_window</tt> - The "outer window" size (0 by default).
-      # * <tt>:left</tt> - The "left outer window" size (0 by default).
-      # * <tt>:right</tt> - The "right outer window" size (0 by default).
-      # * <tt>:params</tt> - url_for parameters for the links (:id, :locale, etc.)
-      # * <tt>:param_name</tt> - parameter name for page number in the links (:page by default)
-      # * <tt>:remote</tt> - Ajax? (false by default)
-      # * <tt>:ANY_OTHER_VALUES</tt> - Any other hash key & values would be directly passed into each tag as :locals value.
       def paginate(scope, options = {})
         current_path = env['PATH_INFO'] rescue nil
         current_params = Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {}
@@ -93,67 +93,8 @@ module Kaminari::Helpers
         )
         paginator.to_s
       end
-
-      # A simple "Twitter like" pagination link that creates a link to the previous page.
-      # Works on Sinatra.
-      #
-      # ==== Examples
-      # Basic usage:
-      #
-      #   <%= link_to_previous_page @items, 'Previous Page' %>
-      #
-      # Ajax:
-      #
-      #   <%= link_to_previous_page @items, 'Previous Page', :remote => true %>
-      #
-      # By default, it renders nothing if there are no more results on the previous page.
-      # You can customize this output by passing a parameter <tt>:placeholder</tt>.
-      #
-      #   <%= link_to_previous_page @users, 'Previous Page', :placeholder => %{<span>At the Beginning</span>} %>
-      #
-      def link_to_previous_page(scope, name, options = {})
-        params = options.delete(:params) || (Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {})
-        param_name = options.delete(:param_name) || Kaminari.config.param_name
-        placeholder = options.delete(:placeholder)
-
-        if scope.first_page?
-          placeholder.to_s.html_safe
-        else
-          query = params.merge(param_name => scope.prev_page)
-          link_to name, env['PATH_INFO'] + (query.empty? ? '' : "?#{query.to_query}"), options.reverse_merge(rel: 'previous')
-        end
-      end
-
-      # A simple "Twitter like" pagination link that creates a link to the next page.
-      # Works on Sinatra.
-      #
-      # ==== Examples
-      # Basic usage:
-      #
-      #   <%= link_to_next_page @items, 'Next Page' %>
-      #
-      # Ajax:
-      #
-      #   <%= link_to_next_page @items, 'Next Page', :remote => true %>
-      #
-      # By default, it renders nothing if there are no more results on the next page.
-      # You can customize this output by passing a parameter <tt>:placeholder</tt>.
-      #
-      #   <%= link_to_next_page @items, 'Next Page', :placeholder => %{<span>No More Pages</span>} %>
-      #
-      def link_to_next_page(scope, name, options = {})
-        params = options.delete(:params) || (Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {})
-        param_name = options.delete(:param_name) || Kaminari.config.param_name
-        placeholder = options.delete(:placeholder)
-
-        if scope.last_page? || scope.out_of_range?
-          placeholder.to_s.html_safe
-        else
-          query = params.merge(param_name => scope.next_page)
-          link_to name, env['PATH_INFO'] + (query.empty? ? '' : "?#{query.to_query}"), options.reverse_merge(rel: 'next')
-        end
-      end
     end
+    Kaminari::Helpers::HelperMethods.prepend SinatraHelperMethods
   end
 end
 
