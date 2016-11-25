@@ -20,6 +20,9 @@ module Kaminari::Helpers
       alias included registered
     end
 
+    # kaminari-sinatra uses Action View for rendering the Paginator
+    # because the default template uses Rails 3-ish `<%=` + block syntax that can't be rendered
+    # with pure ERB.
     class ActionViewTemplateProxy < ActionView::Base
       def initialize(current_path: nil, param_name: nil, current_params: nil)
         super()
@@ -49,6 +52,8 @@ module Kaminari::Helpers
       end
     end
 
+    # Some helper methods that are used in Kaminari::Helpers::HelperMethods.
+    # Plus, monkey-patch for `paginate` to pass in an ActionViewTemplateProxy instance.
     module SinatraHelperMethods
       def url_for(params)
         current_path = env['PATH_INFO'] rescue nil
@@ -77,6 +82,9 @@ module Kaminari::Helpers
         link_to_if !condition, name, options, html_options, &block
       end
 
+      # Overriding `paginate` to pass in an Action View renderer.
+      # If you're sure your custom template is compatible with Padrino renderer, you might not need it.
+      # In that case, please add `template: self` option when calling this method.
       def paginate(scope, options = {})
         current_path = env['PATH_INFO'] rescue nil
         current_params = Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {}
