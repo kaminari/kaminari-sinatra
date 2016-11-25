@@ -44,7 +44,7 @@ module Kaminari::Helpers
 
       def url_for(params)
         extra_params = {}
-        if (page = params[@param_name]) && (Kaminari.config.params_on_first_page || page != 1)
+        if (page = params[@param_name]) && (Kaminari.config.params_on_first_page || (page.to_i != 1))
           extra_params[@param_name] = page
         end
         query = @current_params.merge(extra_params)
