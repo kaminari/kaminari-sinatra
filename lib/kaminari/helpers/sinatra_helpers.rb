@@ -34,6 +34,8 @@ module Kaminari::Helpers
       end
 
       def url_for(params)
+        return params if String === params
+
         extra_params = {}
         if (page = params[@param_name]) && (Kaminari.config.params_on_first_page || (page.to_i != 1))
           extra_params[@param_name] = page
