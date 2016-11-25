@@ -20,26 +20,17 @@ module Kaminari::Helpers
       alias included registered
     end
 
-    class ActionViewTemplateProxy
-      include Padrino::Helpers::OutputHelpers
-      include Padrino::Helpers::TagHelpers
-      include Padrino::Helpers::AssetTagHelpers
-      include Padrino::Helpers::FormatHelpers
-      include Padrino::Helpers::TranslationHelpers
+    class ActionViewTemplateProxy < ActionView::Base
+      def initialize(current_path: nil, param_name: nil, current_params: nil)
+        super()
 
-      def initialize(opts={})
-        @current_path = opts[:current_path]
-        @param_name = (opts[:param_name] || :page).to_sym
-        @current_params = opts[:current_params]
+        @current_path = current_path
+        @param_name = param_name || Kaminari.config.page_method_name
+        @current_params = current_params || {}
         @current_params.delete(@param_name)
-      end
 
-      def render(*args)
-        base = ActionView::Base.new.tap do |a|
-          a.view_paths << SinatraHelpers.view_paths
-          a.view_paths << File.join(Gem.loaded_specs['kaminari-core'].gem_dir, 'app/views')
-        end
-        base.render(*args)
+        view_paths << SinatraHelpers.view_paths
+        view_paths << File.join(Gem.loaded_specs['kaminari-core'].gem_dir, 'app/views')
       end
 
       def url_for(params)
@@ -87,11 +78,10 @@ module Kaminari::Helpers
       def paginate(scope, options = {})
         current_path = env['PATH_INFO'] rescue nil
         current_params = Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {}
-        paginator = Kaminari::Helpers::Paginator.new(
-          ActionViewTemplateProxy.new(current_params: current_params, current_path: current_path, param_name: options[:param_name] || Kaminari.config.param_name),
-          options.reverse_merge(current_page: scope.current_page, total_pages: scope.total_pages, per_page: scope.limit_value, param_name: Kaminari.config.param_name, remote: false)
-        )
-        paginator.to_s
+
+        template = ActionViewTemplateProxy.new current_params: current_params, current_path: current_path, param_name: options[:param_name] || Kaminari.config.param_name
+
+        super scope, {template: template}.merge(options)
       end
     end
     Kaminari::Helpers::HelperMethods.prepend SinatraHelperMethods
