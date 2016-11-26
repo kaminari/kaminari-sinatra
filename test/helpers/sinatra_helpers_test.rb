@@ -59,7 +59,6 @@ EOT
 class SinatraHelperTest < ActiveSupport::TestCase
   include Rack::Test::Methods
   include Sinatra::TestHelpers
-  include HelperMethodForHelperSpec
 
   def last_document
     Nokogiri::HTML(last_response.body)
