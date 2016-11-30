@@ -3,6 +3,7 @@ require 'active_support/core_ext/object'
 require 'active_support/core_ext/string'
 require 'padrino-helpers'
 require 'kaminari/helpers/helper_methods'
+require 'action_view/base'
 
 module Kaminari::Helpers
   module SinatraHelpers
