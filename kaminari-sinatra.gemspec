@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ronnie@dio.jp"]
 
   spec.summary       = 'Kaminari Sinatra adapter'
-  spec.description   = 'Kaminari Sinatra adapter'
+  spec.description   = 'kaminari-sinatra privides pagination helpers for your Sinatra templates'
   spec.homepage      = 'https://github.com/kaminari/kaminari-sinatra'
   spec.license       = "MIT"
 
