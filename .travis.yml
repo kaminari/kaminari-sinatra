@@ -12,6 +12,7 @@ rvm:
 
 gemfile:
   - gemfiles/sinatra_14.gemfile
+  - gemfiles/sinatra_20.gemfile
 
 sudo: false
 
