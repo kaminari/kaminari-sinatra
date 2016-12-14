@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'bundler/setup'
 Bundler.require
 require 'active_record'
+require 'active_support/testing/constant_lookup'
 
 require 'test/unit/active_support'
 require 'test/unit/rr'
