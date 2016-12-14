@@ -4,11 +4,11 @@ source 'https://rubygems.org'
 gem 'kaminari-core', github: 'amatsuda/kaminari'
 gem 'kaminari-activerecord', github: 'amatsuda/kaminari'
 
-gem 'activerecord', '>= 5.0.0', :require => 'active_record'
+gem 'activerecord', '>= 4.2.0', :require => 'active_record'
 #FIXME need to bundle AV for now, because the helper still depends on ActionView
-gem 'actionview', '>= 5.0.0', :require => 'action_view'
+gem 'actionview', '>= 4.2.0', :require => 'action_view'
 #FIXME need to bundle AC for now, because ActionView still depends on ActionController
-gem 'actionpack', '>= 5.0.0', :require => 'action_controller'
+gem 'actionpack', '>= 4.2.0', :require => 'action_controller'
 gem 'sinatra', '~> 1.4.0'
 gem 'padrino-helpers', '~> 0.12.0'
 gem 'rack-test', '>= 0'
