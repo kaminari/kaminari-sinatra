@@ -22,6 +22,12 @@ script: 'bundle exec rake test'
 cache: bundler
 
 matrix:
+  exclude:
+    - rvm: 2.4.0
+      gemfile: gemfiles/sinatra_14.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/sinatra_14.gemfile
+
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
