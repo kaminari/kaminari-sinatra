@@ -11,7 +11,6 @@ require 'active_support/testing/constant_lookup'
 require 'test/unit/active_support'
 require 'test/unit/rr'
 require 'capybara/dsl'
-require 'database_cleaner'
 
 # Simulate a gem providing a subclass of ActiveRecord::Base before the Railtie is loaded.
 require 'fake_gem' if defined? ActiveRecord
