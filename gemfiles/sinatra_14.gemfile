@@ -14,7 +14,7 @@ gem 'actionview', '>= 4.2.0', :require => 'action_view'
 #FIXME need to bundle AC for now, because ActionView still depends on ActionController
 gem 'actionpack', '>= 4.2.0', :require => 'action_controller'
 gem 'sinatra', '~> 1.4.0'
-gem 'padrino-helpers', '~> 0.12.0'
+gem 'padrino-helpers', '~> 0.12'
 gem 'rack-test', '>= 0'
 gem 'sinatra-contrib', '~> 1.4.0'
 gem 'mime-types', '2.99' if RUBY_VERSION < '2.0.0'
