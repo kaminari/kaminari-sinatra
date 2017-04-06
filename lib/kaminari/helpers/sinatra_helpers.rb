@@ -89,7 +89,7 @@ module Kaminari::Helpers
       # In that case, please add `template: self` option when calling this method.
       def paginate(scope, options = {})
         current_path = env['PATH_INFO'] rescue nil
-        current_params = Rack::Utils.parse_query(env['QUERY_STRING']).transform_keys{|k| k.delete("[]")} rescue {}
+        current_params = Rack::Utils.parse_query(env['QUERY_STRING']).map{|k, v| [k.delete("[]"), v]}.to_h.symbolize_keys rescue {}
 
         template = ActionViewTemplateProxy.new current_params: current_params, current_path: current_path, param_name: options[:param_name] || Kaminari.config.param_name
 
