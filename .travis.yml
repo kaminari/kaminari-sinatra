@@ -7,7 +7,7 @@ rvm:
   - 2.3.4
   - 2.4.1
   - ruby-head
-  - jruby-9.1.8.0
+  - jruby-9.1.9.0
   - rbx-2
 
 gemfile:
@@ -29,6 +29,6 @@ matrix:
 
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-9.1.8.0
+    - rvm: jruby-9.1.9.0
     - rvm: rbx-2
   fast_finish: true
