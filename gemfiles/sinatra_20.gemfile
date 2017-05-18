@@ -13,10 +13,10 @@ gem 'activerecord', '>= 5.0.0', :require => 'active_record'
 gem 'actionview', '>= 5.0.0', :require => 'action_view'
 #FIXME need to bundle AC for now, because ActionView still depends on ActionController
 gem 'actionpack', '>= 5.0.0', :require => 'action_controller'
-gem 'sinatra', '2.0.0'
+gem 'sinatra', '~> 2.0.0'
 gem 'padrino-helpers'
 gem 'rack-test', '>= 0'
-gem 'sinatra-contrib', '2.0.0'
+gem 'sinatra-contrib', '~> 2.0.0'
 gem 'mime-types', '2.99' if RUBY_VERSION < '2.0.0'
 
 platforms :ruby do
