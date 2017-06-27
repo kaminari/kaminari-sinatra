@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'fake_app/active_record/config'
 
 #models
 require 'fake_app/active_record/models'
