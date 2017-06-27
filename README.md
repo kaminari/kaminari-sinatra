@@ -2,6 +2,8 @@
 
 kaminari-sinatra is a Kaminari paginator's adapter gem for Sinatra and Sinatra-based frameworks.
 
+Note that this gem does not contain model-side features, such as <tt>Model#page</tt> and <tt>Model#per</tt>.
+They are contained in gems for each ORM, [kaminari-activerecord](https://github.com/kaminari/kaminari/tree/master/kaminari-activerecord) for example.
 
 ## Installation
 
@@ -13,11 +15,9 @@ gem 'kaminari-sinatra'
 
 And bundle.
 
-
 ## Usage
 
-Bundling this gem just enables model-side features, such as <tt>Model#page</tt> and <tt>Model#per</tt>.
-If you want to use view helpers, please explicitly <tt>register</tt> helpers in your Sinatra or Padrino app:
+`register` view helpers in your Sinatra or Padrino app:
 
     register Kaminari::Helpers::SinatraHelpers
 
