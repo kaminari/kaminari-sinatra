@@ -9,3 +9,4 @@ gemfiles/*.lock
 /spec/reports/
 /tmp/
 .byebug_history
+*.sqlite3
