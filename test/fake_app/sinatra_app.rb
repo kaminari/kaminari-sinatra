@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 #models
+
+ActiveRecord::Base.configurations = {"test" => {"adapter" => "sqlite3", "database" => "kaminari_test.sqlite3"}} if ActiveRecord::Base.configurations.empty?
+
 require 'fake_app/active_record/models'
 
 class SinatraApp < Sinatra::Base
