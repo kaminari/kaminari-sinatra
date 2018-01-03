@@ -3,17 +3,17 @@ language: ruby
 before_install: gem update bundler
 
 rvm:
-  - 2.2.9
-  - 2.3.6
-  - 2.4.3
   - 2.5.0
+  - 2.4.3
+  - 2.3.6
+  - 2.2.9
   - ruby-head
   - jruby-9.1.15.0
   - rbx-2
 
 gemfile:
-  - gemfiles/sinatra_14.gemfile
   - gemfiles/sinatra_20.gemfile
+  - gemfiles/sinatra_14.gemfile
 
 sudo: false
 
