@@ -6,6 +6,7 @@ rvm:
   - 2.2.9
   - 2.3.6
   - 2.4.3
+  - 2.5.0
   - ruby-head
   - jruby-9.1.15.0
   - rbx-2
@@ -23,6 +24,8 @@ cache: bundler
 matrix:
   exclude:
     - rvm: 2.4.3
+      gemfile: gemfiles/sinatra_14.gemfile
+    - rvm: 2.5.0
       gemfile: gemfiles/sinatra_14.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/sinatra_14.gemfile
