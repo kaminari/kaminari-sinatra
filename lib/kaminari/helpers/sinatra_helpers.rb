@@ -91,7 +91,11 @@ module Kaminari::Helpers
         current_path = env['PATH_INFO'] rescue nil
         current_params = Rack::Utils.parse_query(env['QUERY_STRING']).symbolize_keys rescue {}
 
-        template = ActionViewTemplateProxy.new current_params: current_params, current_path: current_path, param_name: options[:param_name] || Kaminari.config.param_name
+        template = ActionViewTemplateProxy.new(
+          current_params: current_params.merge(options[:params]),
+          current_path: current_path,
+          param_name: options[:param_name] || Kaminari.config.param_name
+        )
 
         super scope, {template: template}.merge(options)
       end

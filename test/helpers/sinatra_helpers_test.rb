@@ -168,6 +168,24 @@ class SinatraHelperTest < ActiveSupport::TestCase
           assert_match(/user_page=\d+/, elm.attribute('href').value)
         end
       end
+
+      test 'should allow extra params' do
+        mock_app do
+          register Kaminari::Helpers::SinatraHelpers
+          get '/users' do
+            @page = params[:page] || 1
+            @users = User.page(@page).per(3)
+            @options = {params: {foo: 'bar'}}
+            erb ERB_TEMPLATE_FOR_PAGINATE.dup
+          end
+        end
+
+        get '/users'
+
+        last_document.search('.page a').each do |elm|
+          assert_match(/foo=bar/, elm.attribute('href').value)
+        end
+      end
     end
   end
 
