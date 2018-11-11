@@ -31,6 +31,10 @@ matrix:
       gemfile: gemfiles/sinatra_14.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/sinatra_14.gemfile
+    - rvm: jruby-9.2.3.0
+      gemfile: gemfiles/sinatra_14.gemfile
+    - rvm: rbx-3
+      gemfile: gemfiles/sinatra_14.gemfile
 
   allow_failures:
     - rvm: ruby-head
