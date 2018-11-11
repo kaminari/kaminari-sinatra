@@ -30,7 +30,7 @@ ERB_TEMPLATE_FOR_PREVIOUS_PAGE_WITH_BLOCK = <<EOT
   <li class="user_info"><%= user.id %></li>
 <% end %>
 </ul>
-<%= link_to_previous_page(@users, "Previous!", {id: 'previous_page_link'}) do '<span id="no_previous_page">No Previous Page</span>' end %>
+<%= link_to_previous_page(@users, 'Previous!', {id: 'previous_page_link'}) { content_tag(:span, 'No Previous Page', id: 'no_previous_page') } %>
 </div>
 EOT
 
@@ -52,7 +52,7 @@ ERB_TEMPLATE_FOR_NEXT_PAGE_WITH_BLOCK = <<EOT
   <li class="user_info"><%= user.id %></li>
 <% end %>
 </ul>
-<%= link_to_next_page(@users, "Next!", {:id => 'next_page_link'}) do '<span id="no_next_page">No Next Page</span>' end %>
+<%= link_to_next_page(@users, 'Next!', {id: 'next_page_link'}) { content_tag(:span, 'No Next Page', id: 'no_next_page') } %>
 </div>
 EOT
 
