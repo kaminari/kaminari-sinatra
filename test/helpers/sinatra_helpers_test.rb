@@ -168,6 +168,12 @@ class SinatraHelperTest < ActiveSupport::TestCase
           assert_match(/user_page=\d+/, elm.attribute('href').value)
         end
       end
+
+      test 'Include nested query in query' do
+        get '/users', attribute: [:adult, :children]
+
+        assert_match(/users\?attribute%5B%5D=adult&attribute%5B%5D=children/, last_document.search('a').attribute('href').value)
+      end
     end
   end
 
